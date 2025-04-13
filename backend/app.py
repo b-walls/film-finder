@@ -1,3 +1,8 @@
+"""Backend fastAPI for movie recommender application.
+
+    Author: Brendan Walls
+    Version: 4/13/2025 3:03:30
+"""
 import pickle
 import numpy as np
 import pandas as pd
@@ -40,7 +45,7 @@ async def recommend(title: str):
 
     try:
         index = title_to_index[title]
-        distances, indices = model.kneighbors([features[index]])
+        _, indices = model.kneighbors([features[index]], )
         recommended = df.iloc[indices[0][1:]]["title"].tolist()
         return {"recommended": recommended}
     except KeyError:
