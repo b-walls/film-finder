@@ -16,17 +16,16 @@ const Navbar = () => {
         flexDir={{ base: "column", sm: "row"}}
         minH={"50px"}
       >
+        
         <Text 
           fontSize={{ base: "22", sm: "28" }}
           fontWeight="bold"
           // textTransform="uppercase"
           textAlign="center"
         >
-          <Flex alignItems="center" justifyContent="center" gap={2}>
-            <Link to="/"style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>  
-            <LuPopcorn size={"20"} /> FilmFinderAI
-            </Link>
-          </Flex>
+        <Link to="/"style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>  
+        <LuPopcorn size={"20"} />  FilmFinderAI
+        </Link>
         </Text>
         <ColorModeButton></ColorModeButton>
       </Flex>
