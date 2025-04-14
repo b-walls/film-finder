@@ -1,9 +1,14 @@
 import React from 'react'
-import {Text} from '@chakra-ui/react'
+import { Input, VStack, Container } from '@chakra-ui/react'
+import SearchBar from '@/components/SearchBar'
 
 const HomePage = () => {
   return (
-    <Text>Test</Text>
+    <Container maxW='container.xl' py={12}>
+        <VStack spacing={8}>
+            <SearchBar/>
+        </VStack>
+    </Container>
   )
 }
 
