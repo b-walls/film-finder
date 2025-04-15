@@ -10,7 +10,7 @@ function App() {
   return (
     <Box minH={"100vh"} bg={{base: "gray.100", _dark: "gray.900"}}>
         <Navbar/>
-        <Separator></Separator>
+        <Separator/>
         <Routes>
             <Route path="/" element={<HomePage/>}/>
             <Route path="/recommendations" element={<RecommendPage/>}/>

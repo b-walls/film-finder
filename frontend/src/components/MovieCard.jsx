@@ -1,5 +1,7 @@
 import React from 'react'
-import { Box, Image, Text, Heading } from '@chakra-ui/react'
+import { Box, Image, Text, Heading, HStack, Flex, IconButton, Link} from '@chakra-ui/react'
+import { LuExternalLink } from "react-icons/lu"
+
 
 const MovieCard = ({ movieData }) => {
   return (
@@ -13,9 +15,16 @@ const MovieCard = ({ movieData }) => {
   >
     <Image src={movieData.poster} alt={movieData.title} w='100%'/>
     <Box p={4}>
-        <Heading as='h3' size='md' mb={2}>
-        {movieData.title}
-        </Heading>
+        <Flex justifyContent={"space-between"}>
+          <Heading as='h3' size='md' mb={2}>
+          {movieData.title}
+          </Heading>
+          <Link href={movieData.imdb_id}>
+          <IconButton bg="slateblue">
+            <LuExternalLink />
+          </IconButton>
+          </Link>
+        </Flex>
     </Box>
     
   </Box>

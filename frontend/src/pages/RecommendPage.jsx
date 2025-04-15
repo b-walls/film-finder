@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { EmptyState, VStack, IconButton, Text, Container, SimpleGrid } from "@chakra-ui/react"
+import { EmptyState, VStack, IconButton, Text, Container, SimpleGrid, Heading, Separator } from "@chakra-ui/react"
+
 import { MdErrorOutline } from "react-icons/md";
 import { IoHome } from "react-icons/io5";
 import { useLocation, Link } from "react-router-dom"
@@ -46,7 +47,8 @@ const RecommendPage = () => {
   }, [recommendations]);
 
   return (
-    <Container spacing={10} p={5}>
+    <Container spacing={10} p={5} justifyItems={"center"}>
+      <Heading >{`Recommendations based on \"${movie_query}\"`}</Heading>
       {recommendations.length > 0 ? (
         <SimpleGrid
         columns={{
@@ -54,15 +56,15 @@ const RecommendPage = () => {
           md: 2,
           lg:3
           }}
-          spacing={20}
-          p={5}
+          gap="40px"
+          p={10}
         >
           {movieDataList.map((movieData, idx) => (
             <MovieCard key={idx} movieData={movieData}/>
           ))}
         </SimpleGrid>
       ) : (
-        // Display "No results found" if no recommendations
+        // empty result
         <EmptyState.Root>
           <EmptyState.Content>
             <EmptyState.Indicator>
