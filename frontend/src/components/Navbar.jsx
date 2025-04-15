@@ -1,9 +1,11 @@
-import { Container, Box, Text, Separator, Flex } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Container, Box, Text, Separator, Link, Flex, IconButton } from "@chakra-ui/react";
 
 import React from 'react';
 import { LuPopcorn, LuCupSoda } from "react-icons/lu";
+import { IoLogoGithub } from "react-icons/io";
 import { ColorModeButton} from "./ui/color-mode";
+import { IoHome } from "react-icons/io5";
+
 
 const Navbar = () => {
   return (
@@ -17,19 +19,27 @@ const Navbar = () => {
         minH={"50px"}
       >
         <Flex spaceX={3}>
-          <LuPopcorn size={"20"}/>
+          <Link href="/">
+            <IconButton size={"50px"} bg="bg.muted" color={"slateblue"}>
+              <IoHome />
+            </IconButton>
+          </Link>
           <Text 
             fontSize={{ base: "22", sm: "28" }}
             fontWeight="bold"
-            color={"slateblue"}
-            textAlign="center"
+            color={""}
           >
-            <Link to="/"style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>  
               FilmFinderAI
-            </Link>
           </Text>
         </Flex>
-        <ColorModeButton color="slateblue"/>
+        <Flex>
+          <IconButton bg="bg.muted" size={"10px"} px={1}>
+            <Link href="https://github.com/b-walls" target="_blank" >
+              <IoLogoGithub color={"slateblue"}/>
+            </Link>
+          </IconButton>
+          <ColorModeButton color="slateblue"/>
+        </Flex>
       </Flex>
     </Container>
   );

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { EmptyState, VStack, IconButton, Text, Container, SimpleGrid, Heading, Separator } from "@chakra-ui/react"
+import { EmptyState, VStack, IconButton, Box, Container, SimpleGrid, Heading, Separator, Highlight } from "@chakra-ui/react"
 
 import { MdErrorOutline } from "react-icons/md";
 import { IoHome } from "react-icons/io5";
@@ -11,7 +11,7 @@ const RecommendPage = () => {
   const location = useLocation();
   const movie_query = new URLSearchParams(location.search).get("query");
   const [recommendations, setRecommendations] = useState([]);
-  const [movieDataList, setMovieDataList] = useState([]); // Store all movie data
+  const [movieDataList, setMovieDataList] = useState([]); 
 
   const fetchRecommendations = async (movie_query) => {
       try {
@@ -30,7 +30,7 @@ const RecommendPage = () => {
         return response.json();
       });
       const movieData = await Promise.all(movieDataPromises);
-      setMovieDataList(movieData); // Store all fetched movie data
+      setMovieDataList(movieData); 
     } catch (error) {
       console.error("Error fetching movie data:", error);
     }
@@ -47,8 +47,12 @@ const RecommendPage = () => {
   }, [recommendations]);
 
   return (
-    <Container spacing={10} p={5} justifyItems={"center"}>
-      <Heading >{`Recommendations based on \"${movie_query}\"`}</Heading>
+    <Container spacing={10} p={5} justifyItems={"center"} borderLeftWidth={"1px"} borderRightWidth={"1px"}>
+      <Heading fontWeight={"semibold"} alignContent={"center"} textStyle={"2xl"} p={1}>
+        <Highlight query={`\"${movie_query}\"`} styles={{fontWeight: "bold", color: "slateblue"}} > 
+          {`Recommendations based on \"${movie_query}\"`}
+        </Highlight>
+      </Heading>
       {recommendations.length > 0 ? (
         <SimpleGrid
         columns={{
@@ -57,7 +61,7 @@ const RecommendPage = () => {
           lg:3
           }}
           gap="40px"
-          p={10}
+          p={4}
         >
           {movieDataList.map((movieData, idx) => (
             <MovieCard key={idx} movieData={movieData}/>

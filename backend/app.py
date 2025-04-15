@@ -9,6 +9,7 @@ import pandas as pd
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from thefuzz import process, fuzz
+from random import randrange
 
 
 # load model
@@ -17,6 +18,7 @@ with open('./data/model.pkl', 'rb') as f:
 
 # load data
 df = pd.read_csv("./data/indexed_movies.csv")
+df['title'] = df['title'].str.replace("&", "and")
 title_to_index = {title: idx for idx, title in enumerate(df["title"])}
 features = np.load("./data/features.npy")
 
@@ -46,12 +48,24 @@ async def recommend(title: str):
 
     try:
         index = title_to_index[title]
+        print(index)
         _, indices = model.kneighbors([features[index]], )
         recommended = df.iloc[indices[0][1:]]["title"].tolist()
         return {"recommended": recommended}
     except KeyError:
         return {"error": "Movie title not found"}, 404
 
+@app.get("/api/popular-titles")
+async def get_popular_titles():
+    movies = set()
+    for _ in range(3):
+        while True:
+            movie = df['title'][randrange(0, 100)]
+            if movie in movies:
+                continue
+            movies.add(movie)
+            break
+    return{"popular": list(movies)}
 
 @app.get("/api/movie-data")
 async def movie_data(title: str):
@@ -70,8 +84,9 @@ async def movie_data(title: str):
     
     poster_path = "https://image.tmdb.org/t/p/w500" + movie_info['poster_path'].iloc[0]
     imdb_id = "https://www.imdb.com/title/" + movie_info['imdb_id'].iloc[0]
+    rating = movie_info['vote_average'].iloc[0]
 
-    return {"title": title, "poster": poster_path, "imdb_id": imdb_id}
+    return {"title": title, "poster": poster_path, "imdb_id": imdb_id, "rating": rating}
 
 
 @app.get("/api/search-title")

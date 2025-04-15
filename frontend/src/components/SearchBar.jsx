@@ -35,7 +35,7 @@ const SearchBar = () => {
   }
 
   return (
-    <Box minW="xl">
+    <Box maxW="100vw" minW="100%" position={"relative"} px={20}>
       <Flex gap={2}>
         <Input
           placeholder="Search for a movie..."
@@ -47,16 +47,18 @@ const SearchBar = () => {
           </IconButton>
         </Flex>
         {Array.isArray(suggestions) && suggestions.length > 0 ? (
-          <List.Root variant="plain" zIndex="1" width="100%" mt={1} border={"xs"} rounded={"md"}>
-            {suggestions.map((movie, idx) => (
-            <List.Item rounded={"md"} borderTopWidth="1px"key={idx} px={4} py={2} cursor="pointer" _hover={{bg: {base: "gray.200", _dark: "gray.950"}}}
-            onClick={() => {
-                setQuery(movie)
-                setSuggestions([])}}>
-                {movie}
-            </List.Item>
-            ))} 
-          </List.Root>
+          <Box px={20} position={"absolute"} w={"100%"} zIndex="9999" left="0"> 
+            <List.Root shadow={"md"} variant="plain" zIndex="1" mt={1} borderWidth={"1px"} rounded={"md"}>
+              {suggestions.map((movie, idx) => (
+              <List.Item bg={{base: "gray.100", _dark: "gray.900"}} rounded={"sm"} borderTopWidth="1px"key={idx} px={4} py={2} cursor="pointer" _hover={{bg: {base: "gray.200", _dark: "gray.950"}}}
+              onClick={() => {
+                  setQuery(movie)
+                  setSuggestions([])}}>
+                  {movie}
+              </List.Item>
+              ))} 
+            </List.Root>
+          </Box>
             ) : null}
     </Box>
   );
