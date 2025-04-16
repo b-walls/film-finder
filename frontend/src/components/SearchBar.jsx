@@ -6,6 +6,7 @@ import debounce from "lodash.debounce";
 import { Input, List, Box, Separator, IconButton, Flex } from "@chakra-ui/react";
 import { LuSearch } from "react-icons/lu"
 
+const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
 const SearchBar = () => {
   const [query, setQuery] = useState("");
@@ -17,7 +18,7 @@ const SearchBar = () => {
         setSuggestions([]);
         return;
     }
-    const res = await axios.get(`/api/search-title?query=${input}`);
+    const res = await axios.get(`${API_BASE}/api/search-title?query=${input}`);
     const titles = res.data.matches;
     setSuggestions(res.data.matches);
   }, 300);

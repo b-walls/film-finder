@@ -3,13 +3,17 @@ import { VStack, Container, Heading, Separator, Spacer, Box, SimpleGrid, Highlig
 import SearchBar from '@/components/SearchBar'
 import MovieCard from '@/components/MovieCard'
 
+console.log("API_BASE: ", import.meta.env.VITE_BACKEND_URL);
+const API_BASE = import.meta.env.VITE_BACKEND_URL;
+
+
 const HomePage = () => {
   const [movieDataList, setMovieDataList] = useState([]);
   const [popular, setPopular] = useState([]);
 
   const fetchPopular = async () => {
     try {
-      const response = await fetch(`/api/popular-titles`);
+      const response = await fetch(`${API_BASE}/api/popular-titles`);
       const data = await response.json();
       setPopular(data.popular || []);
     } catch (error) {
@@ -20,7 +24,7 @@ const HomePage = () => {
   const fetchAllMovies = async (movies) => {
     try {
       const movieDataPromises = movies.map(async (movie) => {
-        const response = await fetch(`/api/movie-data?title=${movie}`);
+        const response = await fetch(`${API_BASE}/api/movie-data?title=${movie}`);
         return response.json();
       });
       const movieData = await Promise.all(movieDataPromises);
