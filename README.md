@@ -6,7 +6,7 @@ The model is deployed through fastAPI with a frontend developed in react. To tes
 and type in your favorite movie to get recommendations from the model! If you can't think of a movie, don't worry, Film Finder AI will provide suggestions
 on the home page to get your next movie night going!
 
-**Notice**
+## **Notice**
 App will take a while to cold start due to free hosting, give it a bit to load and you'll be in the clear!
 
 [Check out the web app here](https://film-finder-1123.onrender.com/)
