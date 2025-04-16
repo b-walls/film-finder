@@ -58,7 +58,7 @@ async def recommend(title: str):
 @app.get("/api/popular-titles")
 async def get_popular_titles():
     movies = set()
-    for _ in range(3):
+    for _ in range(12):
         while True:
             movie = df['title'][randrange(0, 100)]
             if movie in movies:
