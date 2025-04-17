@@ -1,6 +1,7 @@
 TMDB_movie_dataset_v11.csv
 __pycache__
 .env
+upload_to_db.py
 
 # Logs
 logs
