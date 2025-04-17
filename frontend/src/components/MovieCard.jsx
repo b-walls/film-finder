@@ -77,7 +77,7 @@ const MovieCard = ({ movieData, isHome }) => {
               disabled
               allowHalf
               count={5}
-              defaultValue={Math.floor((movieData.rating / 2) * 2) / 2}
+              defaultValue={Math.floor(movieData.rating + 0.5) / 2}
               size="sm"
               colorPalette={"yellow"}
             >
