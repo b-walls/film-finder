@@ -1,12 +1,29 @@
-import React from 'react'
+import {React, useState, useEffect} from 'react'
 import { Box, Image, Text, Heading, HStack, Flex, IconButton, Link, RatingGroup, VStack } from '@chakra-ui/react'
 import { LuExternalLink } from "react-icons/lu"
 import { useNavigate } from "react-router-dom";
 import MovieInfoDialog from './MovieInfoDialog';
 
+const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
 const MovieCard = ({ movieData, isHome }) => {
+  const [tmdbInfo, setTmdbInfo] = useState([]);
   const navigate = useNavigate();
+
+  const fetchTmdbInfo = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/api/tmdb-data?imdb_id=${movieData.imdb_id}`)
+        const data = await response.json();
+        setTmdbInfo(data);
+      } catch (error) {
+        console.log(`Error fetching TMDB info for ${movieData.title}`, error);
+      }
+    }
+  
+    useEffect(() => {
+      fetchTmdbInfo();
+    }, []);
+
 
   const handleSearch = () => {
     navigate(`/recommendations?query=${encodeURIComponent(movieData.title)}`)
@@ -86,7 +103,7 @@ const MovieCard = ({ movieData, isHome }) => {
               <RatingGroup.Control />
             </RatingGroup.Root>
           </VStack>
-            <MovieInfoDialog movieData={movieData}/>
+            <MovieInfoDialog movieData={movieData} tmdbInfo={tmdbInfo}/>
         </Flex>
       </Box>
     </Box>

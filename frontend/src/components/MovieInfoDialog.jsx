@@ -19,8 +19,6 @@ import { RiNetflixFill } from "react-icons/ri";
 import { TbBrandDisney } from "react-icons/tb";
 import TMDBAttributionIcon from './TMDBAttributionIcon';
 
-const API_BASE = import.meta.env.VITE_BACKEND_URL;
-
 function formatDate(dateString) {
 
   if (!dateString) return "Unknown release date";
@@ -47,23 +45,7 @@ function formatDate(dateString) {
   return `${month} ${day}${ordinalSuffix(day)}, ${year}`;
 }
 
-const MovieInfoDialog = ( { movieData }) => {
-  const [tmdbInfo, setTmdbInfo] = useState([]);
-
-  const fetchTmdbInfo = async () => {
-    try {
-      const response = await fetch(`${API_BASE}/api/tmdb-data?imdb_id=${movieData.imdb_id}`)
-      const data = await response.json();
-      setTmdbInfo(data);
-    } catch (error) {
-      console.log(`Error fetching TMDB info for ${movieData.title}`);
-    }
-  }
-
-  useEffect(() => {
-    fetchTmdbInfo();
-  }, []);
-
+const MovieInfoDialog = ( { movieData, tmdbInfo }) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
