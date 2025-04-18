@@ -1,7 +1,8 @@
 import React from 'react'
-import { Box, Image, Text, Heading, HStack, Flex, IconButton, Link, RatingGroup } from '@chakra-ui/react'
+import { Box, Image, Text, Heading, HStack, Flex, IconButton, Link, RatingGroup, VStack } from '@chakra-ui/react'
 import { LuExternalLink } from "react-icons/lu"
 import { useNavigate } from "react-router-dom";
+import MovieInfoDialog from './MovieInfoDialog';
 
 
 const MovieCard = ({ movieData, isHome }) => {
@@ -38,7 +39,7 @@ const MovieCard = ({ movieData, isHome }) => {
               disabled
               allowHalf
               count={5}
-              defaultValue={Math.floor((movieData.rating / 2) * 2) / 2}
+              defaultValue={Math.floor(movieData.rating + 0.5) / 2}
               size="sm"
               colorPalette={"yellow"}
             >
@@ -58,7 +59,7 @@ const MovieCard = ({ movieData, isHome }) => {
       _hover={{ transform: "translateY(-5px)", shadow: "xl" }}
       w="100%"
     >
-      <Link href={movieData.imdb_id} target="_blank">
+      <Link href={`https://www.imdb.com/title/${movieData.imdb_id}`} target="_blank">
         <Image
           src={movieData.poster}
           alt={movieData.title}
@@ -67,24 +68,25 @@ const MovieCard = ({ movieData, isHome }) => {
           cursor="pointer"
         />
       </Link>
-      <Box p={4}>
+      <Box py={4} px={4}>
         <Flex justifyContent={"space-between"}>
-          <Heading as="h3" size="md" mb={2}>
-            {movieData.title}
-          </Heading>
-          <HStack>
+          <VStack p={1}>
+            <Heading as="h3" size="md" flexWrap={"wrap"}>
+              {movieData.title}
+            </Heading>
             <RatingGroup.Root
               disabled
               allowHalf
               count={5}
               defaultValue={Math.floor(movieData.rating + 0.5) / 2}
-              size="sm"
+              size="md"
               colorPalette={"yellow"}
             >
               <RatingGroup.HiddenInput />
               <RatingGroup.Control />
             </RatingGroup.Root>
-          </HStack>
+          </VStack>
+            <MovieInfoDialog movieData={movieData}/>
         </Flex>
       </Box>
     </Box>

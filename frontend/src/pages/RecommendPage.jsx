@@ -17,7 +17,7 @@ const RecommendPage = () => {
   
 
   const fetchRecommendations = async (movie_query) => {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 3000))
       setLoading(true);
       try {
         const response = await fetch(`${API_BASE}/api/recommendations?title=${movie_query}`);

@@ -26,7 +26,7 @@ const HomePage = () => {
 
 
   const fetchPopular = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 500))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
     setLoading(true);
     setApiError(false);
     try {
@@ -41,14 +41,6 @@ const HomePage = () => {
     }
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDots((prev) => (prev.length < 3 ? prev + "." : ""));
-    }, 400);
-    return () => clearInterval(interval);
-  }, []);
-
-
   const fetchAllMovies = async (movies) => {
     
     try {
@@ -62,6 +54,13 @@ const HomePage = () => {
       console.error("Error fetching movie data:", error);
     }
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots((prev) => (prev.length < 3 ? prev + "." : ""));
+    }, 400);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
         fetchPopular();
