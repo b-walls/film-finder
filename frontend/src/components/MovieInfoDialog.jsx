@@ -1,22 +1,21 @@
-import {React, useEffect, useState } from 'react'
+import {React } from 'react'
 import { Button, 
         CloseButton, 
         Dialog, 
         Image, 
         HStack, 
         IconButton, 
-        List, 
         Portal, 
-        Icon, 
+        RatingGroup, 
         Text, 
         Box, 
         Heading, 
         Separator,
         Flex,
-        VStack} from "@chakra-ui/react"
-import { IoIosInformationCircleOutline } from "react-icons/io";
-import { RiNetflixFill } from "react-icons/ri";
-import { TbBrandDisney } from "react-icons/tb";
+        VStack,
+        Link,
+        Spacer} from "@chakra-ui/react"
+import { FaExternalLinkAlt } from "react-icons/fa";
 import TMDBAttributionIcon from './TMDBAttributionIcon';
 
 function formatDate(dateString) {
@@ -45,13 +44,11 @@ function formatDate(dateString) {
   return `${month} ${day}${ordinalSuffix(day)}, ${year}`;
 }
 
-const MovieInfoDialog = ( { movieData, tmdbInfo }) => {
+const MovieInfoDialog = ( { movieData, tmdbInfo, children}) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <IconButton variant="outline" size="md" p={4}>
-          Information <IoIosInformationCircleOutline />
-        </IconButton>
+        {children}
       </Dialog.Trigger>
       <Portal>
         <Dialog.Backdrop />
@@ -62,17 +59,22 @@ const MovieInfoDialog = ( { movieData, tmdbInfo }) => {
                 <Dialog.Title>
                     <HStack>
                       {movieData.title} 
-                      <Box borderWidth={"1px"} w="fit" px={1}>
+                      { tmdbInfo.rating ? ( 
+                        <Box borderWidth={"1px"} w="fit" px={1}>
                         <Text color="fg.muted">
                           {tmdbInfo.rating}
                         </Text>
                       </Box>
+                      ) : (
+                        <Box/>
+                      )}
                     </HStack>
                 </Dialog.Title>
               </Flex>
             </Dialog.Header>
             <Dialog.Body>
-              <HStack align="start" w="100%"> {/* Aligns the children to the top and left */}
+              {/* General information */}
+              <Flex align="start" w="100%" mb={4} gap={2}> {/* Aligns the children to the top and left */}
                 <VStack align="start" spacing={4}> {/* Aligns the text to the left and adds spacing */}
                   <Heading size="sm">
                     Release Date:
@@ -96,15 +98,90 @@ const MovieInfoDialog = ( { movieData, tmdbInfo }) => {
                     {tmdbInfo.overview}
                   </Text>
                 </VStack>
-                <Image
-                  align="end"
-                  src={`${movieData.poster}`}
-                  w="150px"
-                  objectFit="contain"
-                  rounded={"lg"}
-                  shadow={"xl"}
-                />
+                <VStack align={"center"} justify={"center"} minW={"180px"}>
+                  <Link href={`https://www.imdb.com/title/${movieData.imdb_id}`} target="_blank">
+                    <Image
+                      src={`${movieData.poster}`}
+                      w="100%"
+                      h="100%"
+                      objectFit={"contain"}
+                      rounded={"lg"}
+                      shadow={"xl"}
+                    />
+                  </Link>
+                  <HStack align={"center"} justify={"center"}>
+                    <Image src={"https://m.media-amazon.com/images/G/01/IMDb/brand/guidelines/imdb/IMDb_Logo_Rectangle_Gold._CB443386186_.png"} h={5}/>
+                  <RatingGroup.Root
+                    disabled
+                    allowHalf
+                    count={5}
+                    defaultValue={Math.floor(movieData.rating + 0.5) / 2}
+                    size="sm"
+                    colorPalette={"yellow"}
+                  >
+                    <RatingGroup.HiddenInput />
+                    <RatingGroup.Control/>
+                  </RatingGroup.Root>
+                  <Link href={`https://www.imdb.com/title/${movieData.imdb_id}`} target="_blank">
+                    <IconButton size={"2xs"} bg="slateblue">
+                      <FaExternalLinkAlt/>
+                    </IconButton>
+                  </Link>
+                  </HStack>
+                </VStack>
+              </Flex>
+              {/* Provider information */}
+              <VStack align="start">
+              <Link href={tmdbInfo.providers?.link} target="_blank" variant="underline" >
+                <Heading size="lg" fontWeight="semibold" align="center"> 
+                  Where to watch 
+                </Heading>
+              </Link>
+              <HStack>
+              {tmdbInfo.providers?.stream ? (
+                <>
+                <VStack align="start">
+                  <Text size="md" fontWeight={"bold"}> Stream </Text>
+                <HStack>
+                  {tmdbInfo.providers.stream.map((provider, idx) => (
+                    <Image key={idx} src={`https://image.tmdb.org/t/p/w500/${provider.logo_path}`} objectFit={"contain"} w="50px" rounded={"md"}/>
+                  ))}
+                </HStack>
+                </VStack>
+                <Spacer w={"2px"}/>
+                </>
+              ) : (
+                <Text color="fg.muted"></Text>
+              )}
+               {tmdbInfo.providers?.rent ? (
+                <>
+                <VStack align="start">
+                  <Text size="md" fontWeight={"bold"}> Rent </Text>
+                <HStack>
+                  {tmdbInfo.providers.rent.map((provider, idx) => (
+                    <Image key={idx} src={`https://image.tmdb.org/t/p/w500/${provider.logo_path}`} objectFit={"contain"} w="50px" rounded={"md"}/>
+                  ))}
+                </HStack>
+                </VStack>
+                <Spacer w={"2px"}/>
+                </>
+              ) : (
+                <Text color="fg.muted"></Text>
+              )}
+              {tmdbInfo.providers?.buy ? (
+                <VStack align="start">
+                  <Text size="md" fontWeight={"bold"}> Buy </Text>
+                <HStack>
+                  {tmdbInfo.providers.buy.map((provider, idx) => (
+                      <Image key={idx} src={`https://image.tmdb.org/t/p/w500/${provider.logo_path}`} objectFit={"contain"} w="50px" rounded={"md"}/>
+                  ))}
+                </HStack>
+                </VStack>
+              ) : (
+                <Text color="fg.muted"></Text>
+              )}
               </HStack>
+              </VStack>
             </Dialog.Body>
                 <TMDBAttributionIcon/>
             <Dialog.CloseTrigger asChild>

@@ -76,7 +76,7 @@ const MovieCard = ({ movieData, isHome }) => {
       _hover={{ transform: "translateY(-5px)", shadow: "xl" }}
       w="100%"
     >
-      <Link href={`https://www.imdb.com/title/${movieData.imdb_id}`} target="_blank">
+      <MovieInfoDialog movieData={movieData} tmdbInfo={tmdbInfo}>
         <Image
           src={movieData.poster}
           alt={movieData.title}
@@ -84,26 +84,25 @@ const MovieCard = ({ movieData, isHome }) => {
           h="600px"
           cursor="pointer"
         />
-      </Link>
+      </MovieInfoDialog>
       <Box py={4} px={4}>
-        <Flex justifyContent={"space-between"}>
-          <VStack p={1}>
-            <Heading as="h3" size="md" flexWrap={"wrap"}>
-              {movieData.title}
-            </Heading>
+      <Flex justifyContent={"space-between"}>
+          <Heading as="h3" size="md" mb={2}>
+            {movieData.title}
+          </Heading>
+          <HStack>
             <RatingGroup.Root
               disabled
               allowHalf
               count={5}
               defaultValue={Math.floor(movieData.rating + 0.5) / 2}
-              size="md"
+              size="sm"
               colorPalette={"yellow"}
             >
               <RatingGroup.HiddenInput />
-              <RatingGroup.Control />
+              <RatingGroup.Control/>
             </RatingGroup.Root>
-          </VStack>
-            <MovieInfoDialog movieData={movieData} tmdbInfo={tmdbInfo}/>
+          </HStack>
         </Flex>
       </Box>
     </Box>
