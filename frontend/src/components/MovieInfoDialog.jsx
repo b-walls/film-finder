@@ -137,7 +137,7 @@ const MovieInfoDialog = ( { movieData, tmdbInfo, children}) => {
                   Where to watch 
                 </Heading>
               </Link>
-              <HStack>
+              <HStack gap={2}>
               {tmdbInfo.providers?.stream ? (
                 <>
                 <VStack align="start">
