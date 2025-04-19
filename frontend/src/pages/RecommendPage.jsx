@@ -59,7 +59,7 @@ const RecommendPage = () => {
         <>
           <Skeleton height="8" width="60%" mb={5}/>
           <Separator w="100%" mt={2} mb={4}/>
-          <SimpleGrid columns={{base: 1, md: 2, lg:3}} gap="40px">
+          <SimpleGrid columns={{base: 1, md: 2, lg:3}}>
               {Array(6).fill(null).map((_, idx) => (
                 <Box
                   key={idx}

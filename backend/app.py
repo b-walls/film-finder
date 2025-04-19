@@ -109,22 +109,22 @@ def get_top_providers(providers):
     """
     new_providers = {}
     if 'flatrate' in providers:
-        if len(providers['flatrate']) < 3:
+        if len(providers['flatrate']) < 5:
             new_providers['stream'] = providers['flatrate'][:len(providers['flatrate'])]
         else:
-            new_providers['stream'] = providers['flatrate'][:3]
+            new_providers['stream'] = providers['flatrate'][:5]
 
     if 'rent' in providers:
-        if len(providers['rent']) < 2:
+        if len(providers['rent']) < 4:
             new_providers['rent'] = providers['rent'][:len(providers['rent'])]
         else:
-            new_providers['rent'] = providers['rent'][:2]
+            new_providers['rent'] = providers['rent'][:4]
 
     if 'buy' in providers:
-        if len(providers['buy']) < 2:
+        if len(providers['buy']) < 4:
             new_providers['buy'] = providers['buy'][:len(providers['buy'])]
         else:
-            new_providers['buy'] = providers['buy'][:2]
+            new_providers['buy'] = providers['buy'][:4]
 
     if 'link' in providers:
         new_providers['link'] = providers['link']

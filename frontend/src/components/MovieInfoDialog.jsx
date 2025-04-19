@@ -14,7 +14,8 @@ import { Button,
         Flex,
         VStack,
         Link,
-        Spacer} from "@chakra-ui/react"
+        Spacer,
+        SimpleGrid} from "@chakra-ui/react"
 import { FaExternalLinkAlt } from "react-icons/fa";
 import TMDBAttributionIcon from './TMDBAttributionIcon';
 
@@ -46,7 +47,7 @@ function formatDate(dateString) {
 
 const MovieInfoDialog = ( { movieData, tmdbInfo, children}) => {
   return (
-    <Dialog.Root>
+    <Dialog.Root size={"md"}>
       <Dialog.Trigger asChild>
         {children}
       </Dialog.Trigger>
@@ -137,50 +138,32 @@ const MovieInfoDialog = ( { movieData, tmdbInfo, children}) => {
                   Where to watch 
                 </Heading>
               </Link>
-              <HStack gap={2}>
-              {tmdbInfo.providers?.stream ? (
-                <>
-                <VStack align="start">
-                  <Text size="md" fontWeight={"bold"}> Stream </Text>
-                <HStack>
-                  {tmdbInfo.providers.stream.map((provider, idx) => (
-                    <Image key={idx} src={`https://image.tmdb.org/t/p/w500/${provider.logo_path}`} objectFit={"contain"} w="50px" rounded={"md"}/>
-                  ))}
-                </HStack>
-                </VStack>
-                <Spacer w={"2px"}/>
-                </>
-              ) : (
-                <Text color="fg.muted"></Text>
-              )}
-               {tmdbInfo.providers?.rent ? (
-                <>
-                <VStack align="start">
-                  <Text size="md" fontWeight={"bold"}> Rent </Text>
-                <HStack>
-                  {tmdbInfo.providers.rent.map((provider, idx) => (
-                    <Image key={idx} src={`https://image.tmdb.org/t/p/w500/${provider.logo_path}`} objectFit={"contain"} w="50px" rounded={"md"}/>
-                  ))}
-                </HStack>
-                </VStack>
-                <Spacer w={"2px"}/>
-                </>
-              ) : (
-                <Text color="fg.muted"></Text>
-              )}
-              {tmdbInfo.providers?.buy ? (
-                <VStack align="start">
-                  <Text size="md" fontWeight={"bold"}> Buy </Text>
-                <HStack>
-                  {tmdbInfo.providers.buy.map((provider, idx) => (
-                      <Image key={idx} src={`https://image.tmdb.org/t/p/w500/${provider.logo_path}`} objectFit={"contain"} w="50px" rounded={"md"}/>
-                  ))}
-                </HStack>
-                </VStack>
-              ) : (
-                <Text color="fg.muted"></Text>
-              )}
-              </HStack>
+              <SimpleGrid columns={{ base: 1, md: 3 }} gap={4} w="full">
+                {["stream", "rent", "buy"].map((type) =>
+                  tmdbInfo.providers?.[type] ? (
+                    <Box key={type} borderLeftWidth={"1px"} p={3}>
+                      <VStack align="start" spacing={2}>
+                        <Text fontWeight="semibold" fontSize="md" textTransform="capitalize">
+                          {type}
+                        </Text>
+                        <HStack flexWrap="wrap" spacing={2} w="fit-content">
+                          {tmdbInfo.providers[type].map((provider, idx) => (
+                            <Image
+                              key={idx}
+                              src={`https://image.tmdb.org/t/p/w500/${provider.logo_path}`}
+                              objectFit="contain"
+                              w="40px"
+                              h="40px"
+                              rounded="md"
+                              shadow={"lg"}
+                            />
+                          ))}
+                        </HStack>
+                      </VStack>
+                    </Box>
+                  ) : null
+                )}
+              </SimpleGrid>
               </VStack>
             </Dialog.Body>
                 <TMDBAttributionIcon/>
