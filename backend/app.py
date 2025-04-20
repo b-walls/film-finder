@@ -219,7 +219,6 @@ async def fetch_tmdb_data(imdb_id: str):
         httpx.HTTPStatusError: If the HTTP request to the TMDb API fails.
         KeyError: If the expected data structure is not found in the API response.
     """
-    print(TMDB_API_KEY)
     url_request_id = f"https://api.themoviedb.org/3/find/{imdb_id}"
     request_id_params={"api_key": TMDB_API_KEY, "external_source": "imdb_id"}
     api_only_param={"api_key": TMDB_API_KEY}
@@ -263,7 +262,6 @@ async def recommend(title: str):
 
     try:
         index = title_to_index[title]
-        print(index)
         _, indices = model.kneighbors([features[index]], )
         recommended = df.iloc[indices[0][1:]]["title"].tolist()
         return {"recommended": recommended}
